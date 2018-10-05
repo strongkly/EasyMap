@@ -1,2 +1,2 @@
 # EasyMap
-A convenient plug-in aim to help game develper to get a game map module(e.g. mini-map) quickly
+A convenient Unity plug-in aim to help game developer to get a game map module(e.g. mini-map) quickly
