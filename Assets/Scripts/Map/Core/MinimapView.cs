@@ -5,11 +5,19 @@ using UnityEngine.UI;
 
 public class MinimapView : MonoBehaviour
 {
+    public enum eMapType
+    {
+        selfCenterMap,//以角色为中心的‘雷达’地图
+        staticMap,//静态地图
+    }
+
     public GameObject otherMark;
     public GameObject selfGo;
     public RectTransform mapTexTrans;
+    public RectTransform selfMark;
     public Transform staticMarkRoot, movingMarkRoot;
     public string mapName;
+    public eMapType mapType;
 
     List<GameObject> staticMark;
     Dictionary<GameObject, GameObject> movingObjRelateMarkDic;
@@ -70,8 +78,16 @@ public class MinimapView : MonoBehaviour
             new Vector3(mapData.GetMapOffsetX(),
             ms.mapDepthDimession == eMapDepthDimession.DepthY ? mapData.GetMapOffsetY() : 0,
             ms.mapDepthDimession == eMapDepthDimession.DepthY ? 0 : mapData.GetMapOffsetY());
-        selfPos.Set(-selfPos.x * widthDelta, -selfPos.GetDepth(ms.mapDepthDimession) * heightDelta, 0);
-        mapTexTrans.localPosition = selfPos;
+        if (mapType == eMapType.selfCenterMap)
+        {
+            selfPos.Set(-selfPos.x * widthDelta, -selfPos.GetDepth(ms.mapDepthDimession) * heightDelta, 0);
+            mapTexTrans.localPosition = selfPos;
+        }
+        else if (mapType == eMapType.staticMap)
+        {
+            selfPos.Set(selfPos.x * widthDelta, selfPos.GetDepth(ms.mapDepthDimession) * heightDelta, 0);
+            selfMark.localPosition = selfPos;
+        }
     }
 
     void UpdateMovingMark()
@@ -199,8 +215,14 @@ public class MinimapView : MonoBehaviour
 
     Vector2 TransformMovingPoint(Vector3 worldPos)
     {
-        Vector3 result = worldPos - selfGo.transform.position;
-        result.Set(result.x * widthDelta, result.GetDepth(ms.mapDepthDimession) * heightDelta, 0);
+        Vector3 result;
+        if (mapType == eMapType.selfCenterMap)
+        {
+            result = worldPos - selfGo.transform.position;
+            result.Set(result.x * widthDelta, result.GetDepth(ms.mapDepthDimession) * heightDelta, 0);
+        }
+        else
+            result = TransformStaticPoint(worldPos);
         return result;
     }
 

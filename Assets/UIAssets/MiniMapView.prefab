@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 222518272421134368}
   - component: {fileID: 114467938015250126}
   m_Layer: 5
-  m_Name: MapView
+  m_Name: MiniMapView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,9 +894,11 @@ MonoBehaviour:
   otherMark: {fileID: 1990830671611346}
   selfGo: {fileID: 0}
   mapTexTrans: {fileID: 224632698291017942}
+  selfMark: {fileID: 0}
   staticMarkRoot: {fileID: 224388319348826710}
   movingMarkRoot: {fileID: 224630444084182152}
   mapName: 123
+  mapType: 0
 --- !u!114 &114908395118189112
 MonoBehaviour:
   m_ObjectHideFlags: 1
